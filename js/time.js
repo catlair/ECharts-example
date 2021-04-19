@@ -2,7 +2,7 @@
   function time() {
     const nowDate = new Date();
     const y = nowDate.getFullYear(),
-      mt = nowDate.getMonth(),
+      mt = nowDate.getMonth() + 1,
       d = nowDate.getDate(),
       h = nowDate.getHours(),
       m = nowDate.getMinutes(),

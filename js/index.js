@@ -1,6 +1,27 @@
-(function () {
-  const myChart = echarts.init(document.querySelector('.left-bar .chart'));
+function echartsInit(selector, option) {
+  if (!option) {
+    return;
+  }
+  const myChart = echarts.init(document.querySelector(selector));
+  myChart.setOption(option);
 
+  window.addEventListener('resize', () => {
+    myChart.resize();
+  });
+
+  return myChart;
+}
+
+const commonTooltip = {
+  textStyle: {
+    fontWeight: 400,
+    color: '#fff',
+  },
+  backgroundColor: '#272a3780',
+  borderWidth: 0,
+};
+
+(function () {
   const option = {
     //设置柱子颜色
     color: ['#3398DB'],
@@ -10,11 +31,7 @@
         // 坐标轴指示器，坐标轴触发有效
         type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
       },
-      textStyle: {
-        color: '#fff',
-      },
-      backgroundColor: '#272a3780',
-      borderWidth: 0,
+      ...commonTooltip,
     },
     grid: {
       left: '0%',
@@ -81,16 +98,10 @@
       },
     ],
   };
-
-  myChart.setOption(option);
-
-  window.addEventListener('resize', () => {
-    myChart.resize();
-  });
+  echartsInit('.left-bar .chart', option);
 })();
 
 (function () {
-  const myChart = echarts.init(document.querySelector('.right-bar .chart'));
   const myColor = ['#1089E7', '#F57474', '#56D0E3', '#F8B448', '#8B78F6'];
   const option = {
     grid: {
@@ -181,24 +192,14 @@
       },
     ],
   };
-  myChart.setOption(option);
-
-  window.addEventListener('resize', () => {
-    myChart.resize();
-  });
+  echartsInit('.right-bar .chart', option);
 })();
 
 (function () {
-  const myChart = echarts.init(document.querySelector('.left-line .chart'));
   const option = {
     tooltip: {
       trigger: 'axis',
-      textStyle: {
-        color: '#fff',
-        fontWeight: 400,
-      },
-      backgroundColor: '#272a37aa',
-      borderWidth: 0,
+      ...commonTooltip,
     },
     color: ['#00f2f1', '#ed3f35'],
     grid: {
@@ -280,9 +281,333 @@
     ],
   };
 
-  myChart.setOption(option);
+  echartsInit('.left-line .chart', option);
+})();
 
-  window.addEventListener('resize', () => {
-    myChart.resize();
-  });
+(function () {
+  const xAxisData = new Array(30)
+    .fill(1)
+    .map((_, i) => ((i += 1), i < 10 ? '0' + i : '' + i));
+
+  const option = {
+    color: ['#00f2f1', '#ed3f35'],
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        // 坐标轴指示器，坐标轴触发有效
+        type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+      },
+      ...commonTooltip,
+    },
+    // 图例组件
+    legend: {
+      top: '0%',
+      textStyle: {
+        color: 'rgba(255,255,255,.5)',
+        fontSize: '12',
+      },
+    },
+    // 设置网格样式
+    grid: {
+      left: '10',
+      top: '30',
+      right: '10',
+      bottom: '10',
+      containLabel: true,
+    },
+    xAxis: {
+      type: 'category',
+      axisLabel: {
+        color: '#4c9bfd', // 文本颜色
+      },
+      axisLine: {
+        show: false, // 去除轴线
+      },
+      boundaryGap: false, // 去除轴内间距
+      data: xAxisData,
+    },
+    yAxis: {
+      type: 'value',
+      axisTick: { show: false },
+      axisLine: {
+        lineStyle: {
+          color: 'rgba(255,255,255,.1)',
+        },
+      },
+      axisLabel: {
+        textStyle: {
+          color: 'rgba(255,255,255,.6)',
+          fontSize: 12,
+        },
+      },
+      // 修改分割线的颜色
+      splitLine: {
+        lineStyle: {
+          color: 'rgba(255,255,255,.1)',
+        },
+      },
+    },
+    series: [
+      {
+        name: '播放量',
+        type: 'line',
+        smooth: true,
+        // 单独修改线的样式
+        lineStyle: {
+          color: '#0184d5',
+          width: 1,
+        },
+        showSymbol: false,
+        areaStyle: {
+          opacity: 0.8,
+          color: new echarts.graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: 'rgba(1, 132, 213, 0.4)',
+              },
+              {
+                offset: 0.8,
+                color: 'rgba(1, 132, 213, 0.1)',
+              },
+            ],
+            false
+          ),
+        },
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        // 设置拐点 小圆点
+        symbol: 'circle',
+        // 拐点大小
+        symbolSize: 8,
+        // 设置拐点颜色以及边框
+        itemStyle: {
+          color: '#0184d5',
+          borderColor: 'rgba(221, 220, 107, .1)',
+          borderWidth: 12,
+        },
+        data: [
+          30,
+          40,
+          30,
+          40,
+          30,
+          40,
+          30,
+          60,
+          20,
+          40,
+          30,
+          40,
+          30,
+          40,
+          30,
+          40,
+          30,
+          60,
+          20,
+          40,
+          30,
+          40,
+          30,
+          40,
+          30,
+          40,
+          20,
+          60,
+          50,
+          40,
+        ],
+      },
+      {
+        name: '转发量',
+        type: 'line',
+        smooth: true,
+        // 单独修改线的样式
+        lineStyle: {
+          color: '#00d887',
+          width: 1,
+        },
+        showSymbol: false,
+        areaStyle: {
+          opacity: 0.8,
+          color: new echarts.graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: 'rgba(0, 216, 135, 0.4)',
+              },
+              {
+                offset: 0.8,
+                color: 'rgba(0, 216, 135, 0.1)',
+              },
+            ],
+            false
+          ),
+        },
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        // 设置拐点 小圆点
+        symbol: 'circle',
+        // 拐点大小
+        symbolSize: 8,
+        // 设置拐点颜色以及边框
+        itemStyle: {
+          color: '#00d887',
+          borderColor: 'rgba(221, 220, 107, .1)',
+          borderWidth: 12,
+        },
+        data: [
+          130,
+          10,
+          20,
+          40,
+          30,
+          40,
+          80,
+          60,
+          20,
+          40,
+          90,
+          40,
+          20,
+          140,
+          30,
+          40,
+          130,
+          20,
+          20,
+          40,
+          80,
+          70,
+          30,
+          40,
+          30,
+          120,
+          20,
+          99,
+          50,
+          20,
+        ],
+      },
+    ],
+  };
+
+  echartsInit('.right-line .chart', option);
+})();
+
+(function () {
+  const option = {
+    color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab'],
+    tooltip: {
+      trigger: 'item',
+      ...commonTooltip,
+      formatter: `{a}<br />{b}：{c}（{d}%）`,
+    },
+    legend: {
+      // 距离底部为0%
+      bottom: '0%',
+      // 小图标的宽度和高度
+      itemWidth: 10,
+      itemHeight: 10,
+      // 修改图例组件的文字为 12px
+      textStyle: {
+        color: 'rgba(255,255,255,.5)',
+        fontSize: '12',
+      },
+    },
+    series: [
+      {
+        name: '年龄分布',
+        type: 'pie',
+        // 设置饼形图在容器中的位置
+        center: ['50%', '50%'],
+        //  修改内圆半径和外圆半径为  百分比是相对于容器宽度来说的
+        radius: ['40%', '60%'],
+        avoidLabelOverlap: false,
+        label: {
+          show: false,
+        },
+        labelLine: {
+          show: false,
+        },
+        data: [
+          { value: 1, name: '0-20岁' },
+          { value: 4, name: '20-29岁' },
+          { value: 2, name: '30-39岁' },
+          { value: 2, name: '40-49岁' },
+          { value: 1, name: '50岁以上' },
+        ],
+      },
+    ],
+  };
+
+  echartsInit('.left-pie .chart', option);
+})();
+
+(function () {
+  const option = {
+    color: [
+      '#006cff',
+      '#60cda0',
+      '#ed8884',
+      '#ff9f7f',
+      '#0096ff',
+      '#9fe6b8',
+      '#32c5e9',
+      '#1d9dff',
+    ],
+    tooltip: {
+      trigger: 'item',
+      ...commonTooltip,
+      formatter: `{a}<br />{b}：{c}（{d}%）`,
+    },
+    legend: {
+      bottom: '0%',
+      itemWidth: 10,
+      itemHeight: 10,
+      textStyle: {
+        color: 'rgba(255,255,255,.5)',
+        fontSize: 10,
+      },
+    },
+    series: [
+      {
+        name: '点位统计',
+        type: 'pie',
+        radius: ['10%', '70%'],
+        center: ['50%', '42%'],
+        roseType: 'radius',
+        label: {
+          fontSize: 10,
+          color: 'normal',
+        },
+        // 引导线调整
+        labelLine: {
+          // 连接扇形图线长
+          length: 6,
+          // 连接文字线长
+          length2: 8,
+        },
+        data: [
+          { value: 20, name: '云南' },
+          { value: 26, name: '北京' },
+          { value: 24, name: '山东' },
+          { value: 25, name: '河北' },
+          { value: 20, name: '江苏' },
+          { value: 25, name: '浙江' },
+          { value: 30, name: '四川' },
+          { value: 42, name: '湖北' },
+        ],
+      },
+    ],
+  };
+
+  echartsInit('.right-pie .chart', option);
 })();

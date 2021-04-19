@@ -1,3 +1,15 @@
+/* 约束屏幕尺寸 */
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 42px !important;
+  }
+}
+@media screen and (min-width: 1920px) {
+  html {
+    font-size: 80px !important;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -14,6 +26,7 @@ $border-angle: 2px solid #02a6b5;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  background-size: 100% 100%;
 }
 
 @font-face {
@@ -57,11 +70,11 @@ main {
 
   .column {
     flex: 3;
+    overflow: hidden;
 
     &:nth-child(2) {
       flex: 5;
       margin: 0 0.125rem 0.1875rem;
-      overflow: hidden;
     }
   }
 
@@ -209,34 +222,37 @@ main {
     position: relative;
     height: 10.125rem;
 
-    .map1 {
+    .chart {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      top: 0;
+      left: 0;
+      z-index: 5;
+      height: 10.125rem;
+      width: 100%;
+    }
+
+    .map1 {
+      background: url(../images/map.png);
+      @include vertical-center;
       width: 6.475rem;
       height: 6.475rem;
       opacity: 0.3;
-      background: url(../images/map.png);
-      background-size: 100% 100%;
     }
 
     .map2 {
+      background: url(../images/lbx.png);
       @include vertical-center;
       width: 8.0375rem;
       height: 8.0375rem;
       opacity: 0.6;
-      background: url(../images/lbx.png);
-      background-size: 100% 100%;
       animation: rotate 16s linear infinite;
     }
 
     .map3 {
+      background: url(../images/jt.png);
       @include vertical-center;
       width: 7.075rem;
       height: 7.075rem;
-      background: url(../images/jt.png);
-      background-size: 100% 100%;
       animation: counterclockwise-rotation 16s linear infinite;
     }
 

@@ -21,13 +21,6 @@ li {
 }
 
 $border-angle: 2px solid #02a6b5;
-@mixin vertical-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-size: 100% 100%;
-}
 
 @font-face {
   font-family: electronicFont;
@@ -231,46 +224,61 @@ main {
       width: 100%;
     }
 
+    .map1,
+    .map2,
+    .map3 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      // transform: translate(-50%, -50%);
+    }
+
     .map1 {
       background: url(../images/map.png);
-      @include vertical-center;
+      background-size: 100% 100%;
       width: 6.475rem;
       height: 6.475rem;
+      margin-top: (-6.475rem / 2);
+      margin-left: (-6.475rem / 2);
       opacity: 0.3;
     }
 
     .map2 {
       background: url(../images/lbx.png);
-      @include vertical-center;
+      background-size: 100% 100%;
       width: 8.0375rem;
       height: 8.0375rem;
+      margin-top: (-8.0375rem / 2);
+      margin-left: (-8.0375rem / 2);
       opacity: 0.6;
       animation: rotate 16s linear infinite;
     }
 
     .map3 {
       background: url(../images/jt.png);
-      @include vertical-center;
+      background-size: 100% 100%;
       width: 7.075rem;
       height: 7.075rem;
+      margin-top: (-7.075rem / 2);
+      margin-left: (-7.075rem / 2);
       animation: counterclockwise-rotation 16s linear infinite;
     }
 
     @keyframes rotate {
       from {
-        transform: translate(-50%, -50%) rotate(0deg);
+        transform: rotate(0deg);
       }
       to {
-        transform: translate(-50%, -50%) rotate(360deg);
+        transform: rotate(360deg);
       }
     }
 
     @keyframes counterclockwise-rotation {
       from {
-        transform: translate(-50%, -50%) rotate(360deg);
+        transform: rotate(360deg);
       }
       to {
-        transform: translate(-50%, -50%) rotate(0deg);
+        transform: rotate(0deg);
       }
     }
   }

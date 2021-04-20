@@ -201,54 +201,55 @@ main .map .chart {
   height: 10.125rem;
   width: 100%;
 }
-main .map .map1 {
-  background: url(../images/map.png);
+main .map .map1,
+main .map .map2,
+main .map .map3 {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+}
+main .map .map1 {
+  background: url(../images/map.png);
   background-size: 100% 100%;
   width: 6.475rem;
   height: 6.475rem;
+  margin-top: -3.2375rem;
+  margin-left: -3.2375rem;
   opacity: 0.3;
 }
 main .map .map2 {
   background: url(../images/lbx.png);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background-size: 100% 100%;
   width: 8.0375rem;
   height: 8.0375rem;
+  margin-top: -4.01875rem;
+  margin-left: -4.01875rem;
   opacity: 0.6;
   animation: rotate 16s linear infinite;
 }
 main .map .map3 {
   background: url(../images/jt.png);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background-size: 100% 100%;
   width: 7.075rem;
   height: 7.075rem;
+  margin-top: -3.5375rem;
+  margin-left: -3.5375rem;
   animation: counterclockwise-rotation 16s linear infinite;
 }
 @keyframes rotate {
   from {
-    transform: translate(-50%, -50%) rotate(0deg);
+    transform: rotate(0deg);
   }
   to {
-    transform: translate(-50%, -50%) rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 @keyframes counterclockwise-rotation {
   from {
-    transform: translate(-50%, -50%) rotate(360deg);
+    transform: rotate(360deg);
   }
   to {
-    transform: translate(-50%, -50%) rotate(0deg);
+    transform: rotate(0deg);
   }
 }
 

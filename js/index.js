@@ -2,7 +2,9 @@ function echartsInit(selector, option) {
   if (!option) {
     return;
   }
-  const myChart = echarts.init(document.querySelector(selector));
+  const $dom =
+    typeof selector === 'string' ? document.querySelector(selector) : selector;
+  const myChart = echarts.init($dom);
   myChart.setOption(option);
 
   window.addEventListener('resize', () => {
@@ -21,7 +23,12 @@ const commonTooltip = {
   borderWidth: 0,
 };
 
+/** 柱形图就业行业 */
 (function () {
+  const data = new Map([
+    ['2020', [200, 300, 300, 900, 1500, 1200, 600]],
+    ['2021', [210, 100, 200, 700, 900, 1500, 1000]],
+  ]);
   const option = {
     //设置柱子颜色
     color: ['#3398DB'],
@@ -91,16 +98,32 @@ const commonTooltip = {
         name: '直接访问',
         type: 'bar',
         barWidth: '35%',
-        data: [200, 300, 300, 900, 1500, 1200, 600],
+        data: data.get('2020'),
         itemStyle: {
           barBorderRadius: 5,
         },
       },
     ],
   };
-  echartsInit('.left-bar .chart', option);
+
+  const myChart = echartsInit('.left-bar .chart', option);
+  const $changeYear = document.querySelector('.left-bar h2');
+
+  let year = '';
+  $changeYear.addEventListener('click', (e) => {
+    if (e.target.nodeName !== 'A') {
+      return;
+    }
+    if (year === e.target.innerText) {
+      return;
+    }
+    year = e.target.innerText;
+    option.series[0].data = data.get(year);
+    myChart.setOption(option);
+  });
 })();
 
+/** 柱形图技能掌握 */
 (function () {
   const myColor = ['#1089E7', '#F57474', '#56D0E3', '#F8B448', '#8B78F6'];
   const option = {
@@ -195,6 +218,7 @@ const commonTooltip = {
   echartsInit('.right-bar .chart', option);
 })();
 
+/** 折线图人员变化 */
 (function () {
   const option = {
     tooltip: {
@@ -284,8 +308,152 @@ const commonTooltip = {
   echartsInit('.left-line .chart', option);
 })();
 
+/** 折线图播放量 */
 (function () {
-  const xAxisData = new Array(30)
+  const data = new Map([
+    [
+      '3月',
+      [
+        [
+          30,
+          40,
+          30,
+          78,
+          40,
+          30,
+          40,
+          30,
+          60,
+          20,
+          40,
+          30,
+          40,
+          30,
+          40,
+          30,
+          40,
+          30,
+          60,
+          20,
+          40,
+          30,
+          40,
+          30,
+          40,
+          30,
+          40,
+          20,
+          60,
+          50,
+          40,
+        ],
+        [
+          130,
+          10,
+          20,
+          40,
+          30,
+          40,
+          80,
+          60,
+          20,
+          40,
+          90,
+          70,
+          40,
+          20,
+          140,
+          30,
+          40,
+          130,
+          20,
+          20,
+          40,
+          80,
+          70,
+          30,
+          40,
+          30,
+          120,
+          20,
+          99,
+          50,
+          20,
+        ],
+      ],
+    ],
+    [
+      '4月',
+      [
+        [
+          20,
+          40,
+          30,
+          60,
+          30,
+          40,
+          30,
+          100,
+          20,
+          40,
+          30,
+          50,
+          20,
+          40,
+          30,
+          10,
+          30,
+          60,
+          20,
+          60,
+          30,
+          10,
+          30,
+          40,
+          70,
+          40,
+          20,
+          60,
+          90,
+          20,
+        ],
+        [
+          30,
+          110,
+          20,
+          40,
+          30,
+          10,
+          80,
+          60,
+          30,
+          40,
+          70,
+          40,
+          20,
+          40,
+          30,
+          40,
+          150,
+          20,
+          20,
+          40,
+          80,
+          70,
+          30,
+          120,
+          30,
+          20,
+          40,
+          79,
+          10,
+          80,
+        ],
+      ],
+    ],
+  ]);
+
+  const xAxisData = new Array(31)
     .fill(1)
     .map((_, i) => ((i += 1), i < 10 ? '0' + i : '' + i));
 
@@ -389,38 +557,7 @@ const commonTooltip = {
           borderColor: 'rgba(221, 220, 107, .1)',
           borderWidth: 12,
         },
-        data: [
-          30,
-          40,
-          30,
-          40,
-          30,
-          40,
-          30,
-          60,
-          20,
-          40,
-          30,
-          40,
-          30,
-          40,
-          30,
-          40,
-          30,
-          60,
-          20,
-          40,
-          30,
-          40,
-          30,
-          40,
-          30,
-          40,
-          20,
-          60,
-          50,
-          40,
-        ],
+        data: data.get('3月')[0],
       },
       {
         name: '转发量',
@@ -463,45 +600,30 @@ const commonTooltip = {
           borderColor: 'rgba(221, 220, 107, .1)',
           borderWidth: 12,
         },
-        data: [
-          130,
-          10,
-          20,
-          40,
-          30,
-          40,
-          80,
-          60,
-          20,
-          40,
-          90,
-          40,
-          20,
-          140,
-          30,
-          40,
-          130,
-          20,
-          20,
-          40,
-          80,
-          70,
-          30,
-          40,
-          30,
-          120,
-          20,
-          99,
-          50,
-          20,
-        ],
+        data: data.get('3月')[1],
       },
     ],
   };
 
-  echartsInit('.right-line .chart', option);
+  const myChart = echartsInit('.right-line .chart', option);
+  const $changeMonth = document.querySelector('.right-line h2');
+  let month = '';
+  $changeMonth.addEventListener('click', ({ target }) => {
+    if (target.nodeName !== 'A') {
+      return;
+    }
+    if (month === target.innerText) {
+      return;
+    }
+    month = target.innerText;
+    month === '3月' ? xAxisData.push('31') : xAxisData.pop();
+    option.series[0].data = data.get(month)[0];
+    option.series[1].data = data.get(month)[1];
+    myChart.setOption(option);
+  });
 })();
 
+/** 饼状图年龄分布 */
 (function () {
   const option = {
     color: ['#065aab', '#066eab', '#0682ab', '#0696ab', '#06a0ab'],
@@ -551,6 +673,7 @@ const commonTooltip = {
   echartsInit('.left-pie .chart', option);
 })();
 
+/** 饼状图地区分布 */
 (function () {
   const option = {
     color: [
